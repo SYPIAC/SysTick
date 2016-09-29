@@ -37,3 +37,4 @@ EWARM/settings/
 *.cout
 *.map
 *.wsdt
+*.tmp
