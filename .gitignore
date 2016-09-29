@@ -33,3 +33,7 @@
 
 EWARM/SysTick/
 EWARM/settings/
+*.cout
+*.cout
+*.map
+*.wsdt
