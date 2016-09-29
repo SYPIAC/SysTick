@@ -30,3 +30,6 @@
 *.exe
 *.out
 *.app
+
+EWARM/SysTick/**
+EWARM/settings/**
