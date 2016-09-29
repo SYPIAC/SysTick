@@ -31,5 +31,5 @@
 *.out
 *.app
 
-EWARM/SysTick/**
-EWARM/settings/**
+EWARM/SysTick/
+EWARM/settings/
