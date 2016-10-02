@@ -38,3 +38,4 @@ EWARM/settings/
 *.map
 *.wsdt
 *.tmp
+EWARM/SysTick.dep

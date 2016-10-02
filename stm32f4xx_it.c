@@ -41,8 +41,7 @@
 #define countof(a)   (sizeof(a) / sizeof(*(a)))
 
 /* Private variables ---------------------------------------------------------*/
-uint8_t aTxBuffer[] = "\n\rUSART Hyperterminal Interrupts Example: USART-Hyperterminal\
- communication using Interrupt\n\r";
+uint8_t aTxBuffer[] = "\n\n 1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 uint8_t aRxBuffer[RXBUFFERSIZE];
 uint8_t ubNbrOfDataToTransfer = TXBUFFERSIZE;
 uint8_t ubNbrOfDataToRead = RXBUFFERSIZE;
@@ -178,19 +177,6 @@ void SysTick_Handler(void)
   */
 void USART1_IRQHandler(void)
 {
-  if(USART_GetITStatus(USART1, USART_IT_RXNE) != RESET)
-  {
-    /* Read one byte from the receive data register */
-    aRxBuffer[uhRxCounter++] = (USART_ReceiveData(USART1) & 0x7F);
-
-    if(uhRxCounter == ubNbrOfDataToRead)
-    {
-      /* Disable the USART1 Receive interrupt */
-      uhRxCounter=0;
-      //USART_ITConfig(USART1, USART_IT_RXNE, DISABLE);
-    }
-  }
-
   if(USART_GetITStatus(USART1, USART_IT_TXE) != RESET)
   {   
     /* Write one byte to the transmit data register */
@@ -199,7 +185,7 @@ void USART1_IRQHandler(void)
 
     if(ubTxCounter == ubNbrOfDataToTransfer)
     {
-      //ubTxCounter = 0;
+      ubTxCounter = 0;
       /* Disable the USART1 Transmit interrupt */
       //USART_ITConfig(USART1, USART_IT_TXE, DISABLE);
     }

@@ -170,8 +170,8 @@ void TimingDelay_Decrement(void)
   */
 static void USART_Config(void)
 {
-  USART_InitTypeDef USART_InitStructure;
-  NVIC_InitTypeDef NVIC_InitStruct;
+  USART_InitTypeDef     USART_InitStructure;
+  NVIC_InitTypeDef      NVIC_InitStruct;
   GPIO_InitTypeDef 	GPIO_InitStruct;
 
   // Enable clock for GPIOA
