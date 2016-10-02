@@ -34,6 +34,10 @@
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
+extern uint8_t ubNbrOfDataToTransfer;
+extern uint8_t ubNbrOfDataToRead;
+extern __IO uint8_t ubTxCounter; 
+extern __IO uint16_t uhRxCounter;
 GPIO_InitTypeDef GPIO_InitStructure;
 static __IO uint32_t TimingDelay;
 
@@ -98,7 +102,12 @@ int main(void)
     /* Capture error */ 
     while (1);
   }
-
+  
+      /* Enable the USART1 Transmit nd Receive interrupts: these interrupts are generated when the 
+     USART1 transmit data register is empty */  
+  USART_ITConfig(USART1, USART_IT_TXE, ENABLE);
+  USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);
+  
   while (1)
   {
     /* Toggle LED3 and LED6 */
@@ -118,7 +127,7 @@ int main(void)
     /* Send test data through USART */
     //ch = USART_ReceiveData(USART1);
     //if(ch) {
-     USART_SendData(USART1, 255);
+     //USART_SendData(USART1, 255);
     //}
   }
 }
@@ -162,6 +171,7 @@ void TimingDelay_Decrement(void)
 static void USART_Config(void)
 {
   USART_InitTypeDef USART_InitStructure;
+  NVIC_InitTypeDef NVIC_InitStruct;
   GPIO_InitTypeDef 	GPIO_InitStruct;
 
   // Enable clock for GPIOA
@@ -183,15 +193,6 @@ static void USART_Config(void)
 
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);
   
-/* USARTx configuration ------------------------------------------------------*/
-  /* USARTx configured as follows:
-        - BaudRate = 9600 baud  
-        - Word Length = 8 Bits
-        - Two Stop Bit
-        - Odd parity
-        - Hardware flow control disabled (RTS and CTS signals)
-        - Receive and transmit enabled
-  */
   USART_InitStructure.USART_BaudRate = 9600;
   USART_InitStructure.USART_WordLength = USART_WordLength_8b;
   USART_InitStructure.USART_StopBits = USART_StopBits_2;
@@ -201,6 +202,24 @@ static void USART_Config(void)
   
   USART_Init(USART1, &USART_InitStructure);
   USART_Cmd(USART1, ENABLE);
+  
+    /**
+   * Enable RX interrupt
+   */
+  USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);
+   
+  /**
+   * Set Channel to USART1
+   * Set Channel Cmd to enable. That will enable USART1 channel in NVIC
+   * Set Both priorities to 0. This means high priority
+   *
+   * Initialize NVIC
+   */
+  NVIC_InitStruct.NVIC_IRQChannel = USART1_IRQn;
+  NVIC_InitStruct.NVIC_IRQChannelCmd = ENABLE;
+  NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority = 0;
+  NVIC_InitStruct.NVIC_IRQChannelSubPriority = 0;
+  NVIC_Init(&NVIC_InitStruct);
 }
 #ifdef  USE_FULL_ASSERT
 
