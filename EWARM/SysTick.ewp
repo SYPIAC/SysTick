@@ -303,6 +303,9 @@
           <state>$PROJ_DIR$\..\..\..\..\Libraries\CMSIS\ST\STM32F4xx\Include</state>
           <state>$PROJ_DIR$\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc</state>
           <state>$PROJ_DIR$\..\..\..\..\Utilities\STM32F4-Discovery</state>
+          <state>$PROJ_DIR$\..\custom_libs\LCD</state>
+          <state>$PROJ_DIR$\..\custom_libs\Delay</state>
+          <state>$PROJ_DIR$\..\custom_libs\GPIO</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -924,6 +927,33 @@
     </settings>
   </configuration>
   <group>
+    <name>Custom_TM_Libs</name>
+    <group>
+      <name>Delay</name>
+      <file>
+        <name>$PROJ_DIR$\..\custom_libs\Delay\tm_stm32f4_delay.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\custom_libs\Delay\tm_stm32f4_timer_properties.c</name>
+      </file>
+    </group>
+    <group>
+      <name>GPIO</name>
+      <file>
+        <name>$PROJ_DIR$\..\custom_libs\GPIO\tm_stm32f4_gpio.c</name>
+      </file>
+    </group>
+    <group>
+      <name>LCD</name>
+      <file>
+        <name>$PROJ_DIR$\..\custom_libs\LCD\tm_stm32f4_hd44780.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\custom_libs\LCD\tm_stm32f4_hd44780.h</name>
+      </file>
+    </group>
+  </group>
+  <group>
     <name>EWARM</name>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\Libraries\CMSIS\ST\STM32F4xx\Source\Templates\iar\startup_stm32f4xx.s</name>
@@ -952,6 +982,9 @@
   </group>
   <group>
     <name>User</name>
+    <file>
+      <name>$PROJ_DIR$\..\defines.h</name>
+    </file>
     <file>
       <name>$PROJ_DIR$\..\main.c</name>
     </file>

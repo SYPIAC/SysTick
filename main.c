@@ -21,6 +21,8 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "tm_stm32f4_hd44780.h"
+ 
 
 /** @addtogroup STM32F4_Discovery_Peripheral_Examples
   * @{
@@ -42,7 +44,6 @@ GPIO_InitTypeDef GPIO_InitStructure;
 static __IO uint32_t TimingDelay;
 
 /* Private function prototypes -----------------------------------------------*/
-void Delay(__IO uint32_t nTime);
 static void USART_Config(void);
 /* Private functions ---------------------------------------------------------*/
 
@@ -105,8 +106,8 @@ int main(void)
   
       /* Enable the USART1 Transmit nd Receive interrupts: these interrupts are generated when the 
      USART1 transmit data register is empty */  
-  USART_ITConfig(USART1, USART_IT_TXE, ENABLE);
-  USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);
+  //USART_ITConfig(USART1, USART_IT_TXE, ENABLE);
+  //USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);
   
   while (1)
   {
@@ -127,7 +128,8 @@ int main(void)
     /* Send test data through USART */
     //ch = USART_ReceiveData(USART1);
     //if(ch) {
-     //USART_SendData(USART1, 255);
+    USART_SendData(USART1, 255);
+    
     //}
   }
 }
@@ -137,12 +139,6 @@ int main(void)
   * @param  nTime: specifies the delay time length, in milliseconds.
   * @retval None
   */
-void Delay(__IO uint32_t nTime)
-{ 
-  TimingDelay = nTime;
-
-  while(TimingDelay != 0);
-}
 
 /**
   * @brief  Decrements the TimingDelay variable.
@@ -159,10 +155,10 @@ void TimingDelay_Decrement(void)
 /**
   * @brief  Configures the USART Peripheral. Uses pins PA9 and PA10 as USART1.
     USARTx configured as follows:
-        - BaudRate = 9600 baud  
+        - BaudRate = 2400 baud  
         - Word Length = 8 Bits
-        - Two Stop Bit
-        - Odd parity
+        - One Stop Bit
+        - No parity
         - Hardware flow control disabled (RTS and CTS signals)
         - Receive and transmit enabled
   * @param  None
@@ -193,12 +189,12 @@ static void USART_Config(void)
 
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);
   
-  USART_InitStructure.USART_BaudRate = 9600;
+  USART_InitStructure.USART_BaudRate = 2400;
   USART_InitStructure.USART_WordLength = USART_WordLength_8b;
-  USART_InitStructure.USART_StopBits = USART_StopBits_2;
-  USART_InitStructure.USART_Parity = USART_Parity_Odd;
+  USART_InitStructure.USART_StopBits = USART_StopBits_1;
+  USART_InitStructure.USART_Parity = USART_Parity_No;
   USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
-  USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
+  USART_InitStructure.USART_Mode = USART_Mode_Tx;
   
   USART_Init(USART1, &USART_InitStructure);
   USART_Cmd(USART1, ENABLE);
@@ -206,7 +202,7 @@ static void USART_Config(void)
     /**
    * Enable RX interrupt
    */
-  USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);
+  //USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);
    
   /**
    * Set Channel to USART1
