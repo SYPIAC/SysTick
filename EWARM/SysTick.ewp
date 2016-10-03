@@ -307,6 +307,7 @@
           <state>$PROJ_DIR$\..\custom_libs\Delay</state>
           <state>$PROJ_DIR$\..\custom_libs\GPIO</state>
           <state>$PROJ_DIR$\..\custom_libs\USART</state>
+          <state>$PROJ_DIR$\..\custom_libs\ADC</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -930,6 +931,12 @@
   <group>
     <name>Custom_TM_Libs</name>
     <group>
+      <name>ADC</name>
+      <file>
+        <name>$PROJ_DIR$\..\custom_libs\ADC\tm_stm32f4_adc.c</name>
+      </file>
+    </group>
+    <group>
       <name>Delay</name>
       <file>
         <name>$PROJ_DIR$\..\custom_libs\Delay\tm_stm32f4_delay.c</name>
@@ -976,6 +983,9 @@
     <name>STM32F4xx_StdPeriph_Driver</name>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\src\misc.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_adc.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_gpio.c</name>

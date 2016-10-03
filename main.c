@@ -25,6 +25,8 @@
 #include "defines.h"
 #include "tm_stm32f4_usart.h"
 #include "tm_stm32f4_hd44780.h"
+#include "tm_stm32f4_adc.h"
+#include<stdio.h>
 
  
 
@@ -56,15 +58,25 @@ int main(void)
        To reconfigure the default setting of SystemInit() function, refer to
         system_stm32f4xx.c file
      */     
- 
+    char str[15];
+    
     /* Initialize USART1 at 9600 baud, TX: PB6, RX: PB7 */
     TM_USART_Init(USART1, TM_USART_PinsPack_2, 9600);
     
+    STM_EVAL_LEDInit(LED4);
+    TM_DELAY_Init();
+    TM_ADC_InitADC(ADC1);
+    
     /* Put string to USART */
-    TM_USART_Puts(USART1, "Hello world\n\r");
+    TM_USART_Puts(USART1, "Starting now\n\r");
+    /* Enable internal temperature sensor */
+    TM_ADC_EnableTSensor();
  
     while (1) {
-      TM_USART_Puts(USART1, "Hello world\n\r");
+      sprintf(str, "%1d\n\r", TM_ADC_ReadIntTemp(ADC1));
+      STM_EVAL_LEDToggle(LED4);
+      Delayms(1000);
+      TM_USART_Puts(USART1, str);
     }
 }
 
