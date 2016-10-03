@@ -169,7 +169,7 @@
         <option>
           <name>CCDefines</name>
           <state>USE_STDPERIPH_DRIVER</state>
-          <state>STM32F4XX</state>
+          <state>STM32F40_41xxx</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -306,6 +306,7 @@
           <state>$PROJ_DIR$\..\custom_libs\LCD</state>
           <state>$PROJ_DIR$\..\custom_libs\Delay</state>
           <state>$PROJ_DIR$\..\custom_libs\GPIO</state>
+          <state>$PROJ_DIR$\..\custom_libs\USART</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -950,6 +951,12 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\custom_libs\LCD\tm_stm32f4_hd44780.h</name>
+      </file>
+    </group>
+    <group>
+      <name>USART</name>
+      <file>
+        <name>$PROJ_DIR$\..\custom_libs\USART\tm_stm32f4_usart.c</name>
       </file>
     </group>
   </group>

@@ -2,7 +2,7 @@
 
 <project>
   <fileVersion>2</fileVersion>
-  <fileChecksum>2591769952</fileChecksum>
+  <fileChecksum>4289393117</fileChecksum>
   <configuration>
     <name>SysTick</name>
     <outputs>
@@ -94,16 +94,22 @@
       <file>$PROJ_DIR$\SysTick\Obj\tm_stm32f4_gpio.o</file>
       <file>$PROJ_DIR$\SysTick\Obj\tm_stm32f4_gpio.pbi</file>
       <file>$PROJ_DIR$\..\custom_libs\GPIO\tm_stm32f4_gpio.h</file>
+      <file>$PROJ_DIR$\..\custom_libs\USART\tm_stm32f4_gpio.c</file>
       <file>$PROJ_DIR$\..\custom_libs\GPIO\tm_stm32f4_gpio.c</file>
       <file>$PROJ_DIR$\..\custom_libs\Delay\attributes.h</file>
       <file>$PROJ_DIR$\..\custom_libs\Delay\tm_stm32f4_delay.c</file>
+      <file>$PROJ_DIR$\..\custom_libs\USART\tm_stm32f4_usart.c</file>
       <file>$PROJ_DIR$\..\custom_libs\Delay\tm_stm32f4_timer_properties.c</file>
       <file>$PROJ_DIR$\SysTick\Obj\tm_stm32f4_delay.o</file>
       <file>$PROJ_DIR$\SysTick\Obj\tm_stm32f4_timer_properties.pbi</file>
       <file>$PROJ_DIR$\SysTick\Obj\tm_stm32f4_delay.pbi</file>
       <file>$PROJ_DIR$\SysTick\Obj\tm_stm32f4_timer_properties.o</file>
       <file>$PROJ_DIR$\..\custom_libs\Delay\tm_stm32f4_timer_properties.h</file>
+      <file>$PROJ_DIR$\..\custom_libs\USART\tm_stm32f4_usart.h</file>
+      <file>$PROJ_DIR$\..\custom_libs\USART\attributes.h</file>
+      <file>$PROJ_DIR$\SysTick\Obj\tm_stm32f4_usart.o</file>
       <file>$TOOLKIT_DIR$\inc\c\ysizet.h</file>
+      <file>$PROJ_DIR$\SysTick\Obj\tm_stm32f4_usart.pbi</file>
       <file>$PROJ_DIR$\..\custom_libs\Delay\tm_stm32f4_delay.h</file>
       <file>$TOOLKIT_DIR$\inc\c\stdlib.h</file>
     </outputs>
@@ -127,7 +133,7 @@
       <inputs>
         <tool>
           <name>ILINK</name>
-          <file> 34 26 57 12 71 72 30 15 31 24 92 85 84 95 25 19 78 76</file>
+          <file> 34 26 57 12 71 72 30 15 31 24 94 85 84 97 101 25 19 78 76</file>
         </tool>
       </inputs>
     </file>
@@ -237,12 +243,8 @@
       </outputs>
       <inputs>
         <tool>
-          <name>BICOMP</name>
-          <file> 56 45 18 54 73 47 44 37 79 22 50 66 29 21 41 43 40 17 39 14 8 42 55 13 53 49 74 36 32 5 4 64 2 16 11 6 35 27 48 7 33 28 51 20 62 81 80 98 89 99 97 87</file>
-        </tool>
-        <tool>
           <name>ICCARM</name>
-          <file> 56 45 18 54 73 47 44 37 79 22 50 66 29 21 41 43 40 17 39 14 8 42 55 13 53 49 74 36 32 5 4 64 2 16 11 6 35 27 48 7 33 28 51 20 62 81 80 98 89 99 97 87</file>
+          <file> 56 45 18 54 73 47 44 37 79 22 50 66 29 21 41 43 40 17 39 14 8 42 55 13 53 49 74 36 32 5 4 64 2 16 11 6 35 27 48 7 33 28 51 20 62 80 99 100 87 81 104 90 105 102</file>
         </tool>
       </inputs>
     </file>
@@ -261,11 +263,11 @@
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 46 18 54 73 47 44 37 79 22 50 66 29 21 41 43 40 17 39 14 8 42 55 13 53 49 74 36 32 5 4 64 2 16 11 6 35 27 48 7 33 28 51 20 62 56 45</file>
+          <file> 46 18 54 73 47 44 37 79 22 50 66 29 21 41 43 40 17 39 14 8 42 55 13 53 49 74 36 32 5 4 64 2 16 11 6 35 27 48 7 33 28 51 20 62 56</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 46 18 54 73 47 44 37 79 22 50 66 29 21 41 43 40 17 39 14 8 42 55 13 53 49 74 36 32 5 4 64 2 16 11 6 35 27 48 7 33 28 51 20 62 56 45</file>
+          <file> 46 18 54 73 47 44 37 79 22 50 66 29 21 41 43 40 17 39 14 8 42 55 13 53 49 74 36 32 5 4 64 2 16 11 6 35 27 48 7 33 28 51 20 62 56</file>
         </tool>
       </inputs>
     </file>
@@ -339,13 +341,26 @@
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 81 18 54 73 47 44 37 79 22 50 66 29 21 41 43 40 17 39 14 8 42 55 13 53 49 74 36 32 5 4 64 2 16 11 6 35 27 48 7 33 28 51 20 62 80 98 89 99 97 87</file>
+          <file> 81 18 54 73 47 44 37 79 22 50 66 29 21 41 43 40 17 39 14 8 42 55 13 53 49 74 36 32 5 4 64 2 16 11 6 35 27 48 7 33 28 51 20 62 80 104 90 105 102 87</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 81 18 54 73 47 44 37 79 22 50 66 29 21 41 43 40 17 39 14 8 42 55 13 53 49 74 36 32 5 4 64 2 16 11 6 35 27 48 7 33 28 51 20 62 80 98 89 99 97 87</file>
+          <file> 81 18 54 73 47 44 37 79 22 50 66 29 21 41 43 40 17 39 14 8 42 55 13 53 49 74 36 32 5 4 64 2 16 11 6 35 27 48 7 33 28 51 20 62 80 104 90 105 102 87</file>
         </tool>
       </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\custom_libs\USART\tm_stm32f4_gpio.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 86</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 85</file>
+        </tool>
+      </outputs>
     </file>
     <file>
       <name>$PROJ_DIR$\..\custom_libs\GPIO\tm_stm32f4_gpio.c</name>
@@ -375,21 +390,44 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 94</file>
+          <file> 96</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 92</file>
+          <file> 94</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 98 18 54 73 47 44 37 79 22 50 66 29 21 41 43 40 17 39 14 8 42 55 13 53 49 74 36 32 5 4 64 2 16 11 6 35 27 48 7 33 28 51 20 62 80 89 99 97</file>
+          <file> 104 18 54 73 47 44 37 79 22 50 66 29 21 41 43 40 17 39 14 8 42 55 13 53 49 74 36 32 5 4 64 2 16 11 6 35 27 48 7 33 28 51 20 62 80 90 105 102</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 98 18 54 73 47 44 37 79 22 50 66 29 21 41 43 40 17 39 14 8 42 55 13 53 49 74 36 32 5 4 64 2 16 11 6 35 27 48 7 33 28 51 20 62 80 89 99 97</file>
+          <file> 104 18 54 73 47 44 37 79 22 50 66 29 21 41 43 40 17 39 14 8 42 55 13 53 49 74 36 32 5 4 64 2 16 11 6 35 27 48 7 33 28 51 20 62 80 90 105 102</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\custom_libs\USART\tm_stm32f4_usart.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 103</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 101</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 99 62 18 54 73 47 44 37 79 22 50 66 29 21 41 43 40 17 39 14 8 42 55 13 53 49 74 36 32 5 4 64 2 16 11 6 35 27 48 7 33 28 51 20 100 80 87</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 99 62 18 54 73 47 44 37 79 22 50 66 29 21 41 43 40 17 39 14 8 42 55 13 53 49 74 36 32 5 4 64 2 16 11 6 35 27 48 7 33 28 51 20 100 80 87</file>
         </tool>
       </inputs>
     </file>
@@ -398,27 +436,27 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 93</file>
+          <file> 95</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 95</file>
+          <file> 97</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 96 18 54 73 47 44 37 79 22 50 66 29 21 41 43 40 17 39 14 8 42 55 13 53 49 74 36 32 5 4 64 2 16 11 6 35 27 48 7 33 28 51 20 62 80</file>
+          <file> 98 18 54 73 47 44 37 79 22 50 66 29 21 41 43 40 17 39 14 8 42 55 13 53 49 74 36 32 5 4 64 2 16 11 6 35 27 48 7 33 28 51 20 62 80</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 96 18 54 73 47 44 37 79 22 50 66 29 21 41 43 40 17 39 14 8 42 55 13 53 49 74 36 32 5 4 64 2 16 11 6 35 27 48 7 33 28 51 20 62 80</file>
+          <file> 98 18 54 73 47 44 37 79 22 50 66 29 21 41 43 40 17 39 14 8 42 55 13 53 49 74 36 32 5 4 64 2 16 11 6 35 27 48 7 33 28 51 20 62 80</file>
         </tool>
       </inputs>
     </file>
     <forcedrebuild>
-      <name>[MULTI_TOOL]</name>
-      <tool>ILINK</tool>
+      <name>$PROJ_DIR$\..\custom_libs\USART\tm_stm32f4_gpio.c</name>
+      <tool>ICCARM</tool>
     </forcedrebuild>
   </configuration>
 </project>

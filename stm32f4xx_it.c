@@ -41,13 +41,6 @@
 #define countof(a)   (sizeof(a) / sizeof(*(a)))
 
 /* Private variables ---------------------------------------------------------*/
-uint8_t aTxBuffer[] = "\n\n 1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-uint8_t aRxBuffer[RXBUFFERSIZE];
-uint8_t ubNbrOfDataToTransfer = TXBUFFERSIZE;
-uint8_t ubNbrOfDataToRead = RXBUFFERSIZE;
-__IO uint8_t ubTxCounter = 0; 
-__IO uint16_t uhRxCounter = 0; 
-
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 
@@ -165,23 +158,6 @@ void PendSV_Handler(void)
   * @param  None
   * @retval None
   */
-void USART1_IRQHandler(void)
-{
-  if(USART_GetITStatus(USART1, USART_IT_TXE) != RESET)
-  {   
-    /* Write one byte to the transmit data register */
-    if(ubTxCounter != ubNbrOfDataToTransfer)
-      return;
-      //USART_SendData(USART1, aTxBuffer[ubTxCounter++]);
-
-    if(ubTxCounter == ubNbrOfDataToTransfer)
-    {
-      ubTxCounter = 0;
-      /* Disable the USART1 Transmit interrupt */
-      //USART_ITConfig(USART1, USART_IT_TXE, DISABLE);
-    }
-  }
-}
 
 
 /**
