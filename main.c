@@ -58,8 +58,7 @@ int main(void)
        To reconfigure the default setting of SystemInit() function, refer to
         system_stm32f4xx.c file
      */     
-    char str[15];
-    
+  
     /* Initialize USART1 at 9600 baud, TX: PB6, RX: PB7 */
     TM_USART_Init(USART1, TM_USART_PinsPack_2, 9600);
     
@@ -71,12 +70,26 @@ int main(void)
     TM_USART_Puts(USART1, "Starting now\n\r");
     /* Enable internal temperature sensor */
     TM_ADC_EnableTSensor();
- 
+     /* Initialize ADC1 on channel 0(POTENTIOMETER), this is pin PA0 */
+    TM_ADC_Init(ADC1, ADC_Channel_0);
+
+    char str[15];
+    uint32_t potentiometer;    
     while (1) {
-      sprintf(str, "%1d\n\r", TM_ADC_ReadIntTemp(ADC1));
-      STM_EVAL_LEDToggle(LED4);
-      Delayms(1000);
-      TM_USART_Puts(USART1, str);
+        potentiometer = TM_ADC_Read(ADC1, ADC_Channel_0);
+        //5 v max, 1000 to convert to mV, 4096 = 2^12 sample number
+        potentiometer = potentiometer * 1000 * 5/ 4096;
+        //0.6 - discovered coefficient
+        potentiometer *= 0.6;
+        /*  Make  a string for USART to send */
+        sprintf(str, "POUT: %4d mV, TEMPIN:%4d c\n\r", (uint16_t)potentiometer, TM_ADC_ReadIntTemp(ADC1));
+        
+        STM_EVAL_LEDToggle(LED4);
+        /* Put to USART */
+        TM_USART_Puts(USART1, str);
+        
+        /* Little delay */
+        Delayms(1000);
     }
 }
 
