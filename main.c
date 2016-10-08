@@ -70,26 +70,38 @@ int main(void)
     TM_USART_Puts(USART1, "Starting now\n\r");
     /* Enable internal temperature sensor */
     TM_ADC_EnableTSensor();
-     /* Initialize ADC1 on channel 0(POTENTIOMETER), this is pin PA0 */
+    /* Initialize ADC1 on channel 0(POTENTIOMETER), this is pin PA0 */
     TM_ADC_Init(ADC1, ADC_Channel_0);
-
+    /* Initialize ADC1 on channel 1(external thermometer), this is pin PA1 */
+    TM_ADC_Init(ADC1, ADC_Channel_2);
+    
     char str[15];
-    uint32_t potentiometer;    
+    uint32_t potentiometer;
+    uint16_t thermometer;
+    int timing = 0;
     while (1) {
         potentiometer = TM_ADC_Read(ADC1, ADC_Channel_0);
         //5 v max, 1000 to convert to mV, 4096 = 2^12 sample number
-        potentiometer = potentiometer * 1000 * 5/ 4096;
-        //0.6 - discovered coefficient
-        potentiometer *= 0.6;
-        /*  Make  a string for USART to send */
-        sprintf(str, "POUT: %4d mV, TEMPIN:%4d c\n\r", (uint16_t)potentiometer, TM_ADC_ReadIntTemp(ADC1));
+        potentiometer = potentiometer * 1000 * 3.3/ 4096;
         
-        STM_EVAL_LEDToggle(LED4);
-        /* Put to USART */
-        TM_USART_Puts(USART1, str);
+        thermometer = TM_ADC_Read(ADC1, ADC_Channel_2);
         
-        /* Little delay */
-        Delayms(1000);
+        /* 100ms delay */
+        Delayms(100);
+        timing++;
+        
+        //Once a second
+        if(timing==10) {
+          /*  Make  a string for USART to send */
+          sprintf(str, "PV: %4d mV, TIN:%4d c, TOUT:%4d c\n\r", 
+                 (uint16_t)potentiometer, TM_ADC_ReadIntTemp(ADC1), thermometer);
+          /*Flash LED to confirm program isn't hanging*/
+          STM_EVAL_LEDToggle(LED4);
+          /* Put to USART */
+          TM_USART_Puts(USART1, str);
+          
+          timing = 0;
+        }        
     }
 }
 
@@ -106,7 +118,7 @@ void assert_failed(uint8_t* file, uint32_t line)
 { 
   /* User can add his own implementation to report the file name and line number,
      ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-
+  printf("Wrong parameters value: file %s on line %d\r\n", file, line);
   /* Infinite loop */
   while (1)
   {
