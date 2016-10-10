@@ -58,75 +58,77 @@ int main(void)
        To reconfigure the default setting of SystemInit() function, refer to
         system_stm32f4xx.c file
      */     
-      /* Initialize USART1 at 9600 baud, TX: PB6, RX: PB7 */
-    TM_USART_Init(USART1, TM_USART_PinsPack_2, 9600);
-    
-    STM_EVAL_LEDInit(LED4);
-    TM_DELAY_Init();
-    TM_ADC_InitADC(ADC1);
-    
-    /* Put string to USART */
-    TM_USART_Puts(USART1, "Starting now\n\r");
-    /* Enable internal temperature sensor */
-    TM_ADC_EnableTSensor();
-    /* Initialize ADC1 on channel 0(POTENTIOMETER), this is pin PA0 */
-    TM_ADC_Init(ADC1, ADC_Channel_0);
-    /* Initialize ADC1 on channel 2(external thermometer), this is pin PA2 */
-    TM_ADC_Init(ADC1, ADC_Channel_2);
+  RCC_HSEConfig(RCC_HSE_ON);
+  while(!RCC_WaitForHSEStartUp());
+    /* Initialize USART1 at 9600 baud, TX: PB6, RX: PB7 */
+  TM_USART_Init(USART1, TM_USART_PinsPack_2, 9600);
+  
+  STM_EVAL_LEDInit(LED4);
+  TM_DELAY_Init();
+  TM_ADC_InitADC(ADC1);
+  
+  /* Put string to USART */
+  TM_USART_Puts(USART1, "Starting now\n\r");
+  /* Enable internal temperature sensor */
+  TM_ADC_EnableTSensor();
+  /* Initialize ADC1 on channel 0(POTENTIOMETER), this is pin PA0 */
+  TM_ADC_Init(ADC1, ADC_Channel_0);
+  /* Initialize ADC1 on channel 2(external thermometer), this is pin PA2 */
+  TM_ADC_Init(ADC1, ADC_Channel_2);
 
-    //Initialize LCD
-    TM_HD44780_Init(16, 2);
+  //Initialize LCD
+  TM_HD44780_Init(16, 2);
 
-    //Put string to LCD
-    TM_HD44780_Puts(0, 0, "STM32F4/29 Discovery");
+  //Put string to LCD
+  TM_HD44780_Puts(0, 0, "STM32F4/29 Discovery");
+  
+  //Wait a little
+  Delayms(3000);
+  
+  //Clear LCD
+  TM_HD44780_Clear();
+  
+  //Show cursor
+  TM_HD44780_CursorOn();
+  
+  //Write new text
+  TM_HD44780_Puts(6, 0, "CLEARED!");
+  
+  //Wait a little
+  Delayms(1000);
+  
+  //Enable cursor blinking
+  TM_HD44780_BlinkOn();
+  
+  char str[15];
+  uint32_t potentiometer;
+  uint16_t thermometer;
+  int timing = 0;
+  while (1) {
+    potentiometer = TM_ADC_Read(ADC1, ADC_Channel_0);
+    //5 v max, 1000 to convert to mV, 4096 = 2^12 sample number
+    potentiometer = potentiometer * 1000 * 3.3/ 4096;
     
-    //Wait a little
-    Delayms(3000);
+    thermometer = TM_ADC_Read(ADC1, ADC_Channel_2);
     
-    //Clear LCD
-    TM_HD44780_Clear();
+    /* 100ms delay */
+    Delayms(100);
+    timing++;
     
-    //Show cursor
-    TM_HD44780_CursorOn();
-    
-    //Write new text
-    TM_HD44780_Puts(6, 0, "CLEARED!");
-    
-    //Wait a little
-    Delayms(1000);
-    
-    //Enable cursor blinking
-    TM_HD44780_BlinkOn();
-    
-    char str[15];
-    uint32_t potentiometer;
-    uint16_t thermometer;
-    int timing = 0;
-    while (1) {
-        potentiometer = TM_ADC_Read(ADC1, ADC_Channel_0);
-        //5 v max, 1000 to convert to mV, 4096 = 2^12 sample number
-        potentiometer = potentiometer * 1000 * 3.3/ 4096;
-        
-        thermometer = TM_ADC_Read(ADC1, ADC_Channel_2);
-        
-        /* 100ms delay */
-        Delayms(100);
-        timing++;
-        
-        //Once a second
-        if(timing==10) {
-          /*  Make  a string for USART to send */
-          sprintf(str, "PV: %4d mV, TIN:%4d c, TOUT:%4d c\n\r", 
-                 (uint16_t)potentiometer, TM_ADC_ReadIntTemp(ADC1), thermometer);
-          /*Flash LED to confirm program isn't hanging*/
-          STM_EVAL_LEDToggle(LED4);
-          /* Put to USART */
-          TM_USART_Puts(USART1, str);
-          /* Put on LCD */
-          TM_HD44780_Puts(0, 0, str);
-          timing = 0;
-        }        
-    }
+    //Once a second
+    if(timing==10) {
+      /*  Make  a string for USART to send */
+      sprintf(str, "PV: %4d mV, TIN:%4d c, TOUT:%4d c\n\r", 
+             (uint16_t)potentiometer, TM_ADC_ReadIntTemp(ADC1), thermometer);
+      /*Flash LED to confirm program isn't hanging*/
+      STM_EVAL_LEDToggle(LED4);
+      /* Put to USART */
+      TM_USART_Puts(USART1, str);
+      /* Put on LCD */
+      TM_HD44780_Puts(0, 0, str);
+      timing = 0;
+    }        
+  }
 }
 
 #ifdef  USE_FULL_ASSERT
