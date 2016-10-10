@@ -58,8 +58,7 @@ int main(void)
        To reconfigure the default setting of SystemInit() function, refer to
         system_stm32f4xx.c file
      */     
-  
-    /* Initialize USART1 at 9600 baud, TX: PB6, RX: PB7 */
+      /* Initialize USART1 at 9600 baud, TX: PB6, RX: PB7 */
     TM_USART_Init(USART1, TM_USART_PinsPack_2, 9600);
     
     STM_EVAL_LEDInit(LED4);
@@ -72,8 +71,32 @@ int main(void)
     TM_ADC_EnableTSensor();
     /* Initialize ADC1 on channel 0(POTENTIOMETER), this is pin PA0 */
     TM_ADC_Init(ADC1, ADC_Channel_0);
-    /* Initialize ADC1 on channel 1(external thermometer), this is pin PA1 */
+    /* Initialize ADC1 on channel 2(external thermometer), this is pin PA2 */
     TM_ADC_Init(ADC1, ADC_Channel_2);
+
+    //Initialize LCD
+    TM_HD44780_Init(16, 2);
+
+    //Put string to LCD
+    TM_HD44780_Puts(0, 0, "STM32F4/29 Discovery");
+    
+    //Wait a little
+    Delayms(3000);
+    
+    //Clear LCD
+    TM_HD44780_Clear();
+    
+    //Show cursor
+    TM_HD44780_CursorOn();
+    
+    //Write new text
+    TM_HD44780_Puts(6, 0, "CLEARED!");
+    
+    //Wait a little
+    Delayms(1000);
+    
+    //Enable cursor blinking
+    TM_HD44780_BlinkOn();
     
     char str[15];
     uint32_t potentiometer;
@@ -99,7 +122,8 @@ int main(void)
           STM_EVAL_LEDToggle(LED4);
           /* Put to USART */
           TM_USART_Puts(USART1, str);
-          
+          /* Put on LCD */
+          TM_HD44780_Puts(0, 0, str);
           timing = 0;
         }        
     }

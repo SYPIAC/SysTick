@@ -28,6 +28,10 @@
 #ifndef TM_DEFINES_H
 #define TM_DEFINES_H
 
+#define TM_DELAY_TIM				TIM2
+#define TM_DELAY_TIM_IRQ			TIM2_IRQn
+#define TM_DELAY_TIM_IRQ_HANDLER	TIM2_IRQHandler
+
 /*==================== 
  HD44780 Control pins
 ======================*/
