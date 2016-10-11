@@ -1,24 +1,3 @@
-/**
-  ******************************************************************************
-  * @file    SysTick/main.c 
-  * @author  MCD Application Team
-  * @version V1.0.0
-  * @date    19-September-2011
-  * @brief   Main program body
-  ******************************************************************************
-  * @attention
-  *
-  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
-  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
-  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY
-  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
-  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
-  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
-  *
-  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>
-  ******************************************************************************  
-  */ 
-
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f4_discovery.h"
@@ -26,17 +5,7 @@
 #include "tm_stm32f4_usart.h"
 #include "tm_stm32f4_hd44780.h"
 #include "tm_stm32f4_adc.h"
-#include<stdio.h>
-
- 
-
-/** @addtogroup STM32F4_Discovery_Peripheral_Examples
-  * @{
-  */
-
-/** @addtogroup SysTick_Example
-  * @{
-  */ 
+#include <stdio.h>
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -58,45 +27,39 @@ int main(void)
        To reconfigure the default setting of SystemInit() function, refer to
         system_stm32f4xx.c file
      */     
+  //Make sure delay timer is on before starting
   RCC_HSEConfig(RCC_HSE_ON);
   while(!RCC_WaitForHSEStartUp());
-    /* Initialize USART1 at 9600 baud, TX: PB6, RX: PB7 */
-  TM_USART_Init(USART1, TM_USART_PinsPack_2, 9600);
-  
+  /* Initialize USART1 at 9600 baud, TX: PB6, RX: PB7 */
+  TM_USART_Init(COM_USART, COM_PINS, 9600);
+
   STM_EVAL_LEDInit(LED4);
   TM_DELAY_Init();
   TM_ADC_InitADC(ADC1);
   
   /* Put string to USART */
-  TM_USART_Puts(USART1, "Starting now\n\r");
+  TM_USART_Puts(COM_USART, "Starting now\n\r");
   /* Enable internal temperature sensor */
   TM_ADC_EnableTSensor();
   /* Initialize ADC1 on channel 0(POTENTIOMETER), this is pin PA0 */
-  TM_ADC_Init(ADC1, ADC_Channel_0);
+  TM_ADC_Init(POT_ADC, POT_CHANNEL);
   /* Initialize ADC1 on channel 2(external thermometer), this is pin PA2 */
-  TM_ADC_Init(ADC1, ADC_Channel_2);
+  TM_ADC_Init(TEMP_ADC, TEMP_CHANNEL);
 
   //Initialize LCD
   TM_HD44780_Init(16, 2);
-
   //Put string to LCD
   TM_HD44780_Puts(0, 0, "STM32F4/29 Discovery");
-  
   //Wait a little
   Delayms(3000);
-  
   //Clear LCD
   TM_HD44780_Clear();
-  
   //Show cursor
   TM_HD44780_CursorOn();
-  
   //Write new text
   TM_HD44780_Puts(6, 0, "CLEARED!");
-  
   //Wait a little
   Delayms(1000);
-  
   //Enable cursor blinking
   TM_HD44780_BlinkOn();
   
@@ -105,11 +68,11 @@ int main(void)
   uint16_t thermometer;
   int timing = 0;
   while (1) {
-    potentiometer = TM_ADC_Read(ADC1, ADC_Channel_0);
-    //5 v max, 1000 to convert to mV, 4096 = 2^12 sample number
+    potentiometer = TM_ADC_Read(POT_ADC, POT_CHANNEL);
+    /* 3.3 v max, 1000 to convert to mV, 4096 = 2^12 sample number */
     potentiometer = potentiometer * 1000 * 3.3/ 4096;
     
-    thermometer = TM_ADC_Read(ADC1, ADC_Channel_2);
+    thermometer = TM_ADC_Read(TEMP_ADC, TEMP_CHANNEL);
     
     /* 100ms delay */
     Delayms(100);
@@ -117,13 +80,13 @@ int main(void)
     
     //Once a second
     if(timing==10) {
-      /*  Make  a string for USART to send */
+      /*  Make a string for USART to send */
       sprintf(str, "PV: %4d mV, TIN:%4d c, TOUT:%4d c\n\r", 
              (uint16_t)potentiometer, TM_ADC_ReadIntTemp(ADC1), thermometer);
-      /*Flash LED to confirm program isn't hanging*/
+      /* Flash LED to confirm program isn't hanging */
       STM_EVAL_LEDToggle(LED4);
-      /* Put to USART */
-      TM_USART_Puts(USART1, str);
+      /* Put to COM */
+      TM_USART_Puts(COM_USART, str);
       /* Put on LCD */
       TM_HD44780_Puts(0, 0, str);
       timing = 0;
@@ -151,13 +114,3 @@ void assert_failed(uint8_t* file, uint32_t line)
   }
 }
 #endif
-
-/**
-  * @}
-  */ 
-
-/**
-  * @}
-  */ 
-
-/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/

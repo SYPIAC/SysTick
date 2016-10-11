@@ -28,10 +28,28 @@
 #ifndef TM_DEFINES_H
 #define TM_DEFINES_H
 
+/*==================== 
+ Delay timer
+======================*/
 #define TM_DELAY_TIM				TIM2
 #define TM_DELAY_TIM_IRQ			TIM2_IRQn
 #define TM_DELAY_TIM_IRQ_HANDLER	TIM2_IRQHandler
 
+/*==================== 
+ COM PORT
+======================*/
+#define COM_USART USART1
+//Look in tm_stm32f4_usart.h for what pin packs correspond to what pins
+#define COM_PINS TM_USART_PinsPack_2
+/*==================== 
+ ADC Channels
+======================*/
+//For potentiometer
+#define POT_ADC ADC1
+#define POT_CHANNEL ADC_Channel_0
+//For temperature sensor
+#define TEMP_ADC ADC1
+#define TEMP_CHANNEL ADC_Channel_2
 /*==================== 
  HD44780 Control pins
 ======================*/
